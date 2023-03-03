@@ -12,6 +12,8 @@
   "license": "ISC",
   "dependencies": {
     "discord.js": "^14.7.1",
+    "firebase": "^9.17.2",
+    "firebase-admin": "^11.5.0",
     "node-fetch": "^2.6.9"
   },
   "devDependencies": {
