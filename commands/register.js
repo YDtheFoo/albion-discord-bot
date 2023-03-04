@@ -20,12 +20,15 @@ module.exports = {
         player,
         userID: interaction.user.id,
       });
-      interaction.reply("Player registered!");
+      interaction.reply(`Player ${player} registered!`);
       return;
     } else {
-      interaction.reply(
-        `You are already registered as ${snapshot.docs[0].data().player}!`
-      );
+      interaction.reply({
+        content: `You are already registered as ${
+          snapshot.docs[0].data().player
+        }!`,
+        ephemeral: true,
+      });
       return;
     }
   },

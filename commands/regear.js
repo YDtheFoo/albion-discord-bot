@@ -18,7 +18,10 @@ module.exports = {
       .where("userID", "==", interaction.user.id)
       .get();
     if (snapshot.empty) {
-      interaction.reply("You are not registered! Please register first!");
+      interaction.reply({
+        content: "You are not registered! Please register first!",
+        ephemeral: true,
+      });
       return;
     }
     const player = snapshot.docs[0].data().player;
@@ -27,7 +30,7 @@ module.exports = {
       .then((response) => response.json())
       .then(async (data) => {
         const killEvents = data.events.filter(
-          (event) => event.victim.name === player
+          (event) => event.victim.name.toLowerCase() === player.toLowerCase()
         );
         //generate response options for discord
         const responseOptions = killEvents.map((event) => {
@@ -38,6 +41,13 @@ module.exports = {
           };
         });
 
+        if (responseOptions.length === 0) {
+          interaction.reply({
+            content: "You have no kills to regear from!",
+            ephemeral: true,
+          });
+          return;
+        }
         const actionRow = new ActionRowBuilder().addComponents(
           new StringSelectMenuBuilder()
             .setCustomId("regear")
@@ -47,6 +57,7 @@ module.exports = {
         interaction.reply({
           content: "Select a kill",
           components: [actionRow],
+          ephemeral: true,
         });
       })
       .catch((err) => console.log(err));
