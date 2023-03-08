@@ -11,7 +11,6 @@ module.exports = {
     .setName("regear")
     .setDescription("Regear your character!"),
   async execute(interaction) {
-    let totalGearValue = 0;
     const embeds = [];
     const playerRef = db.collection("rats-cartel");
     const snapshot = await playerRef

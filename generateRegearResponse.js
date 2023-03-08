@@ -46,9 +46,19 @@ async function generateRegearResponse(interaction, id) {
       const gearName = victimGear[gear].Type;
       const quality = victimGear[gear].Quality;
       victimGear[gear].gearImage = getGearImage(gearName, quality);
-      victimGear[gear].gearPrice = await getGearPrice(gearName, quality);
+      if (gear === "MainHand") {
+        victimGear[gear].gearPrice = await getGearPrice(
+          gearName,
+          quality,
+          1500000
+        );
+      } else {
+        victimGear[gear].gearPrice = await getGearPrice(gearName, quality);
+      }
 
-      totalGearValue += victimGear[gear].gearPrice;
+      totalGearValue += isNaN(victimGear[gear].gearPrice)
+        ? 0
+        : victimGear[gear].gearPrice;
 
       const embed = new EmbedBuilder()
         .setColor("#0099ff")
